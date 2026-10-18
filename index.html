@@ -1,0 +1,674 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selbst- &amp; Fremdbilder · Guide</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: #faf9f7; color: #35404e;
+    display: flex; flex-direction: column; min-height: 100vh;
+    -webkit-text-size-adjust: 100%;
+  }
+  main { flex: 1; width: 100%; max-width: 600px; margin: 0 auto; padding: 6px 12px 2px; display: flex; flex-direction: column; }
+
+  header { text-align: center; padding: 6px 6px 4px; }
+  header h1 { font-size: 1.3rem; font-weight: 600; letter-spacing: 0.02em; color: #2c3644; }
+  header .sub { font-size: 0.84rem; color: #6a7480; margin-top: 3px; }
+  header .ver { font-size: 0.74rem; color: #5b7a9d; margin-top: 3px; }
+  .headrule { width: 56px; border: none; border-top: 2px solid #c9ad68; margin: 6px auto 0; }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 6px; flex: 1; align-content: stretch; }
+  .bigrow { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 6px; }
+  .bigrow .pill { width: 100%; padding: 4px 6px; font-size: 0.77rem; line-height: 1.15; }
+  .actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; margin-top: 6px; }
+
+  @keyframes buchfall {
+    0% { transform: translateY(-12vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(112vh) rotate(340deg); opacity: 0.85; }
+  }
+  .fall { position: fixed; top: 0; font-size: 1.6rem; pointer-events: none; z-index: 60; animation: buchfall linear forwards; }
+  .tile {
+    background: #ffffff; border: 1px solid #e5e2dc; border-top: 3px solid var(--c);
+    border-radius: 10px; flex: 1 1 0; min-height: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 1px 2px; cursor: pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .tile:active { transform: scale(0.97); }
+  .tile .ico { font-size: 1.1rem; }
+  .tile .lbl { font-size: 0.76rem; font-weight: 600; color: #3a4552; text-align: center; padding: 0 2px; line-height: 1.15; }
+  .tile .cnt { font-size: 0.63rem; color: #9aa3ad; }
+
+  .rubhead { display: flex; align-items: baseline; gap: 8px; margin: 4px 0 2px; }
+  .rubhead .ri { font-size: 1.15rem; }
+  .rubhead h2 { font-size: 1.1rem; color: #2c3644; font-weight: 600; }
+  .rubline { border: none; border-top: 2px solid var(--c); width: 70px; margin: 6px 0 10px; }
+  .terms { display: grid; grid-template-columns: 1fr; gap: 8px; }
+  .term {
+    background: #fff; border: 1px solid #e5e2dc; border-left: 3px solid var(--c);
+    border-radius: 10px; padding: 9px 12px; font-size: 0.9rem;
+    font-weight: 600; color: #3a4552; text-align: left; cursor: pointer;
+    display: flex; justify-content: space-between; align-items: center;
+    transition: transform .12s ease;
+  }
+  .term:active { transform: scale(0.98); }
+  .term .arr { color: #b8bec6; font-weight: 400; }
+
+  .card {
+    background: #fff; border: 1px solid #e5e2dc; border-top: 3px solid var(--c);
+    border-radius: 12px; padding: 14px 16px; margin-top: 10px;
+  }
+  .card .kicker { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: #a3adb7; margin-bottom: 8px; }
+  .card h3 { font-size: 1.1rem; color: #2c3644; font-weight: 600; margin-bottom: 6px; }
+  .card p { font-size: 0.95rem; line-height: 1.55; color: #45525f; overflow-wrap: break-word; }
+
+  .navrow { display: flex; gap: 8px; margin: 8px 0 4px; flex-wrap: wrap; }
+  button.pill {
+    background: #1b2a4a; color: #fff; border: none; border-radius: 999px;
+    padding: 4px 11px; font-size: 0.79rem; cursor: pointer; font-family: inherit;
+    white-space: nowrap;
+  }
+  button.pill:active { transform: scale(0.97); }
+  button.pill.ghost { background: #fff; color: #1b2a4a; border: 1px solid #c9cfd8; }
+  .tally { font-size: 0.68rem; color: #9aa3ad; margin: 5px 0 0; text-align: center; }
+
+  .quizcard { background: #fff; border: 1px solid #e5e2dc; border-top: 3px solid #c08a3e; border-radius: 12px; padding: 14px 16px; margin-top: 10px; }
+  .quizcard .qnum { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c08a3e; margin-bottom: 8px; }
+  .quizcard .qtxt { font-size: 1rem; font-weight: 600; color: #2c3644; margin-bottom: 12px; line-height: 1.45; }
+  .opts { display: grid; gap: 8px; }
+  .opt {
+    background: #fbfaf8; border: 1px solid #ddd9d2; border-radius: 10px;
+    padding: 10px 12px; font-size: 0.9rem; text-align: left;
+    cursor: pointer; font-family: inherit; color: #3a4552;
+  }
+  .opt.good { border-color: #7aa87a; background: #f0f7f0; color: #2f5d2f; }
+  .opt.bad { border-color: #c4c9cf; background: #f1f1f0; color: #7c828a; }
+  .opt:disabled { cursor: default; }
+  .qresult { margin-top: 10px; font-size: 0.92rem; min-height: 1.4em; }
+  .score { margin-top: 10px; font-size: 0.92rem; color: #45525f; }
+
+  .htbcard {
+    background: #fff; border: 1px solid #e5e2dc; border-top: 3px solid #5b7a9d;
+    border-radius: 12px; padding: 16px 16px; margin-top: 10px;
+    min-height: 200px; display: flex; flex-direction: column; justify-content: center;
+    cursor: pointer;
+  }
+  .htbcard:active { transform: scale(0.985); }
+  .htbcard .hrub { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: #a3adb7; margin-bottom: 8px; text-align: right; }
+  .htbcard h3 { font-size: 1.15rem; color: #2c3644; font-weight: 600; text-align: center; }
+  .htbrule { width: 38px; border: none; border-top: 2px solid #c9ad68; margin: 8px auto; }
+  .htbcard p { font-size: 0.92rem; line-height: 1.5; color: #45525f; text-align: center; }
+  .htbctr { text-align: center; color: #5b7a9d; font-weight: 700; font-size: 0.72rem; letter-spacing: 0.08em; margin-top: 6px; }
+
+  footer { position: sticky; bottom: 0; margin-top: auto; padding: 6px 14px 8px; background: #faf9f7; border-top: 1px solid #e5e2dc; z-index: 30; }
+  .foot-inner { max-width: 600px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .foot-left { display: flex; align-items: center; gap: 7px; font-size: 0.74rem; color: #5b7a9d; }
+  .foot-mid { font-size: 0.74rem; color: #5b7a9d; }
+  #arcLink { font-size: 0.68rem; }
+  .flink { color: #5b7a9d; background: none; border: none; font: inherit; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .flink:hover { color: #35404e; }
+
+  .arc-pop {
+    position: absolute; bottom: calc(100% - 4px); right: 12px;
+    background: #1f2a40; color: #e8ebf0; border-radius: 10px;
+    padding: 8px 14px; display: none; text-align: center; cursor: pointer;
+    box-shadow: 0 6px 18px rgba(31,42,64,0.28); z-index: 40;
+    transition: transform .15s ease;
+  }
+  .arc-pop.open { display: block; }
+  .arc-pop:active { transform: scale(0.97); }
+  .arc-pop .arc-name { font-size: 0.74rem; letter-spacing: 0.08em; font-weight: 600; color: #fff; }
+  .arc-pop .arc-studio { font-size: 0.52rem; letter-spacing: 0.3em; text-transform: uppercase; color: #b9c2d0; margin-top: 2px; }
+  .arc-pop .arc-motto { font-size: 0.6rem; color: #c9ad68; letter-spacing: 0.07em; margin-top: 7px; border-top: 1px solid #3a4a66; padding-top: 6px; }
+
+  dialog { border: none; border-radius: 12px; padding: 18px 16px; max-width: 640px; width: 94%; margin: auto; box-shadow: 0 18px 44px rgba(44,54,68,0.25); }
+  dialog::backdrop { background: rgba(30,40,60,0.45); }
+  dialog h3 { font-size: 1.05rem; color: #2c3644; margin-bottom: 10px; }
+  dialog p { font-size: 0.88rem; line-height: 1.55; color: #45525f; margin-top: 8px; overflow-wrap: break-word; }
+  dialog .pill { margin-top: 14px; }
+
+  #printArea { display: none; }
+  @media print {
+    @page { size: A4 portrait; margin: 6mm; }
+    body * { visibility: hidden; }
+    #printArea { display: block; visibility: visible; position: absolute; left: 0; top: 0; width: 100%; }
+    #printArea * { visibility: visible; }
+    .print-heading { display: flex; align-items: center; justify-content: space-between; font-size: 10pt; color: #555; font-weight: 700; width: 198mm; margin: 0 0 3mm; }
+    .chip-page { width: 210mm; min-height: 296mm; padding: 8mm; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr); gap: 4mm; page-break-after: always; }
+    .chip-circle { width: 53mm; height: 53mm; border: 2px solid #1b2a4a; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 5mm; overflow: hidden; }
+    .chip-circle .ct { font-size: 10pt; font-weight: 700; }
+    .chip-circle .cc { font-size: 7pt; color: #444; margin-top: 2mm; line-height: 1.3; }
+    .kart-page { width: 198mm; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(4, 62mm); gap: 3mm 2.6mm; page-break-after: always; page-break-inside: avoid; }
+    .kart { border: 1px dashed #8a8f96; border-radius: 3mm; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 2mm 2mm; overflow: hidden; }
+    .kart .klabel { font-size: 5.5pt; color: #777; letter-spacing: 0.06em; margin-bottom: 1mm; }
+    .kart .klabel2 { font-size: 5.5pt; color: #777; letter-spacing: 0.06em; margin: 1.2mm 0 0.6mm; }
+    .kart .kt { font-size: 9pt; font-weight: 700; color: #333; overflow-wrap: break-word; }
+    .kart .kregel { width: 10mm; height: 0.4mm; background: #bbb; margin: 1.2mm 0; }
+    .kart .kc { font-size: 6.4pt; color: #333; line-height: 1.25; overflow-wrap: break-word; }
+    .kart .kc.mittel { font-size: 5.8pt; }
+    .kart .kc.lang { font-size: 5.2pt; line-height: 1.18; }
+    .kart .kt.fr { font-size: 6.8pt; font-weight: 600; color: #555; line-height: 1.3; }
+    .kart .linie { width: 82%; border-bottom: 0.3mm solid #999; height: 7.5mm; }
+    .klausur-page { width: 200mm; padding: 0 8mm 6mm; page-break-after: always; }
+    .klausur-page h2 { font-size: 14pt; color: #1b2a4a; margin: 0 0 4mm; border-bottom: 2px solid #c9ad68; padding-bottom: 2mm; }
+    .klausur-page .aufg { font-size: 11pt; font-weight: 700; color: #2c3644; margin: 4mm 0 2mm; }
+    .klausur-page .afb { font-size: 9pt; color: #888; margin: 0 0 2mm; }
+    .klausur-page .loes { font-size: 10pt; line-height: 1.45; color: #333; }
+    .klausur-page .loeshead { font-size: 10pt; font-weight: 700; color: #3f7a5c; margin-top: 2mm; }
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>Selbst- &amp; Fremdbilder</h1>
+  <div class="sub">Römer &amp; Germanen · Geschichte 11 · Klausurtrainer</div>
+  <div class="ver">Version 3.0.2</div>
+  <hr class="headrule">
+</header>
+
+<main id="main"></main>
+
+<footer>
+  <div class="foot-inner">
+    <div class="foot-left">
+      <button class="flink" id="impLink">Impressum</button><span>·</span>
+      <button class="flink" id="dsLink">Datenschutz</button>
+    </div>
+    <div class="foot-mid">© 2026</div>
+    <button class="flink" id="arcLink">ARC(E)ANA</button>
+  </div>
+  <div class="arc-pop" id="arcPanel" title="Einklappen">
+    <div class="arc-name">ARC(E)ANA</div>
+    <div class="arc-studio">creative studio</div>
+    <div class="arc-motto">Entdecken · Entwickeln · Erschaffen</div>
+  </div>
+  <dialog id="dlgImp">
+    <h3>Impressum</h3>
+    <p><strong>Angaben gemäß § 5 DDG:</strong><br>
+    ARC(E)ANA creative studio<br>
+    Entwicklerin und inhaltlich Verantwortliche: K. Schütz<br>
+    Potsdam · Germany<br>
+    Anschrift: [vollständige Anschrift]<br>
+    E-Mail: [E-Mail-Adresse]</p>
+    <p><strong>Über diesen Guide:</strong><br>
+    „Selbst- &amp; Fremdbilder – Römer &amp; Germanen“ ist eine KI-gestützte, eigenentwickelte Lernhilfe für die Klausurvorbereitung im Geschichtsunterricht der Jahrgangsstufe 11, orientiert am Rahmenlehrplan für die gymnasiale Oberstufe Berlin-Brandenburg („Alterität und Identifikationen“), mit den Bereichen Begriffe &amp; Methodik, römisches Selbstbild, Caesar, Tacitus, Varusschlacht &amp; Arminius, Rezeption &amp; Mythos sowie Klausur-Werkstatt – dazu ein Hosentaschenbuch, Lern-Chips, Lernkärtchen, Klausurfragen und ein Quiz. KI kann Fehler machen – bitte vor dem Lernen durch Lehrkräfte prüfen.</p>
+    <p>Die Verbindung von digitalem Lernen, selbstständigem Erarbeiten und haptischen Lernmaterialien ist Teil des Lernkonzepts ARC(E)ANA – Entdecken. Entwickeln. Erschaffen.</p>
+    <p>© 2026 · ARC(E)ANA creative studio · K. Schütz · Potsdam, Germany</p>
+    <button class="pill" onclick="document.getElementById('dlgImp').close()">Schließen</button>
+  </dialog>
+  <dialog id="dlgDs">
+    <h3>Datenschutz und technische Datenverarbeitung</h3>
+    <p>Die Lern-App „Selbst- &amp; Fremdbilder – Römer &amp; Germanen“ gehört zum pädagogischen Konzept ARC(E)ANA – Entdecken. Entwickeln. Erschaffen. Die App ist so gestaltet, dass möglichst wenige Daten verarbeitet werden.</p>
+    <p>Für die Nutzung der Lerninhalte ist keine Anmeldung nötig. Die App fragt keine Namen, E-Mail-Adressen oder persönlichen Lernprofile ab. Sie ist nicht dafür gedacht, persönliche Daten der Lernenden zu sammeln, Lernfortschritte einzelnen Personen zuzuordnen oder Nutzungsprofile zu erstellen.</p>
+    <p>Die App läuft komplett offline im Browser und nutzt keine eigenen Tracking-Technologien; sie setzt keine eigenen Cookies ein.</p>
+    <p><strong>Vorlesen:</strong> Sprachausgabe erfolgt lokal auf dem Endgerät (Sprachsynthese). Es werden keine Audioaufnahmen gemacht.</p>
+    <p><strong>Druck:</strong> Chips, Lernkärtchen, Klausurfragen und das Hosentaschenbuch werden über die Druckfunktion des Browsers ausgegeben; es werden keine Daten an Dritte gesendet.</p>
+    <p><strong>Technische Bereitstellung:</strong> Wird die App über einen externen Hosting-Dienst veröffentlicht, kann dieser Anbieter technische Verbindungsdaten wie IP-Adressen verarbeiten und aus Sicherheitsgründen speichern. Dafür ist der jeweilige Anbieter verantwortlich.</p>
+    <p><strong>Rechtliche Grundlagen und Datenschutzprinzipien:</strong><br>
+    Die Lern-App orientiert sich an den Grundsätzen der Datenschutz-Grundverordnung (DSGVO), insbesondere an Artikel 5 zur Datenminimierung sowie an den Transparenz- und Informationsanforderungen der Artikel 12 und 13 DSGVO, soweit diese im konkreten Fall Anwendung finden.</p>
+    <p>Für die Speicherung von Informationen auf den Endgeräten der Nutzerinnen und Nutzer sowie den Zugriff auf bereits gespeicherte Informationen ist § 25 des Telekommunikation-Digitale-Dienste-Datenschutz-Gesetzes (TDDDG) maßgeblich, soweit dessen Anwendungsbereich eröffnet ist.</p>
+    <p>ARC(E)ANA – Entdecken. Entwickeln. Erschaffen.</p>
+    <button class="pill" onclick="document.getElementById('dlgDs').close()">Schließen</button>
+  </dialog>
+</footer>
+
+<div id="printArea"></div>
+
+<script>
+/* ===================== INHALTE ===================== */
+const RUBRICS = [
+  { name: "Begriffe & Methodik", icon: "🔍", c: "#5b7a9d", terms: [
+    ["Selbstbild", "Das Bild, das eine Gruppe von sich selbst entwirft: wer „wir“ sind und wofür wir stehen – oft idealisiert und als Legitimation genutzt."],
+    ["Fremdbild", "Das Bild, das eine Gruppe von einer anderen entwirft – geprägt von Vorurteilen, Klischees und Absichten. Es sagt mehr über die Schreiberkultur aus als über die Beschriebenen."],
+    ["Alterität", "„Andersartigkeit“: das Wahrnehmen und Beschreiben des fremden Anderen. Das Lehrplanthema heißt „Alterität und Identifikationen“."],
+    ["Ethnozentrismus", "Die eigene Kultur wird als Maßstab und Norm genommen – römische Germanenbilder sind stark ethnozentrisch geprägt."],
+    ["Konstrukt", "Fremdbilder sind Konstruktionen: von jemandem, mit Absicht, in einem Kontext hergestellt – keine neutralen Tatsachenberichte."],
+    ["Stereotyp", "Ein vereinfachtes, verfestigtes und selten hinterfragtes Gruppenbild."],
+    ["Topos", "Ein sich wiederholendes, tradierungsfähiges Merkmal – z. B. die Germanenwildheit als klassischer Barbarentopos."],
+    ["Barbar", "Griechisch „barbaros“: der unverständlich Sprechende – Sammelbegriff für das nicht-griechische, nicht-römische Fremde."],
+    ["Quellenkritik", "Fragen nach Autor, Zeit, Absicht und Kontext einer Quelle – die Grundhaltung jeder Analyse."],
+    ["Perspektivität", "Jede Quelle zeigt eine Sicht; es gibt keine neutrale Erzählung von Vergangenheit."],
+    ["Multiperspektivität", "Mehrere Perspektiven vergleichen – z. B. Paterculus und Tacitus zur Varusschlacht."],
+    ["Dekonstruktion", "Ein überliefertes Bild in seine Absichten und Entstehungsbedingungen zerlegen."],
+    ["Geschichtskultur", "Wie eine Gesellschaft ihre Geschichte darstellt und nutzt – Denkmäler, Filme, Feiern, Schulbücher."],
+    ["Rezeption", "Die nachwirkende Aufnahme eines Werkes oder Stoffes – z. B. die Germania im 19. Jahrhundert."],
+    ["Mythos", "Eine vereinfachte, identitätsstiftende Erzählung – der Arminius-/Hermannsmythos."],
+    ["Instrumentalisierung", "Geschichte für eigene Zwecke nutzen – Propaganda, Denkmal, Politik."],
+    ["Abgrenzung", "Selbstbilder entstehen oft in Abgrenzung vom Anderen: der zivilisierte Römer braucht den wilden Barbaren."],
+    ["Klausur-Grundfrage", "Wer schreibt wann, warum und für wen? Erst so lässt sich ein Bild beurteilen."],
+  ]},
+  { name: "Römisches Selbstbild", icon: "🏛️", c: "#8a6d3b", terms: [
+    ["Civitas", "Stadt, Bürgergemeinschaft, Recht – Zivilisation bedeutet für Römer stadtrömisches Leben mit Bädern, Theatern, Straßen und Ämtern."],
+    ["Virtus", "Tüchtigkeit, Tapferkeit, männliche Selbstbeherrschung – wer sich beherrscht, darf andere beherrschen. Kernbegriff des römischen Selbstbilds."],
+    ["Pax Romana", "Die römische Friedensordnung: Rom bringt aus eigener Sicht Frieden, Recht und Wohlstand – das legitimiert die Expansion als „Zivilisierungsmission“."],
+    ["Maß & Vernunft", "Das römische Gegen-Ideal zum „maßlosen“ Barbaren: maßvoll und vernunftbegabt, in der Nachfolge der Griechen."],
+    ["Sklavenhaltergesellschaft", "Roms Wohlstand beruht auf Eroberung und Sklaverei – im Selbstbild wird die harte Realität als Ordnung und Frieden erzählt."],
+    ["Vergil, Aeneis", "„Du, Römer, erinnere daran, die Völker zu beherrschen … Frieden zu schaffen, die Unterworfenen zu schonen und die Stolzen niederzukämpfen“ – der Herrschaftsauftrag Roms (um 19 v. Chr.)."],
+    ["Herrschaftsanspruch", "Moralische Überlegenheit begründet für Römer ihren Anspruch auf Weltherrschaft – die Weltmacht rechtfertigt sich selbst."],
+    ["Legitimationsbild", "Das römische Selbstbild ist kein Tatsachenbericht, sondern ein Identitäts- und Legitimationsentwurf."],
+    ["Krisenzeiten", "Nach Niederlagen (9 n. Chr.) und unter den flavischen Kaisern werden Selbstbilder besonders stark betont – Erklärungsmuster werden gebraucht."],
+    ["Kaiserideologie", "Augustus stilisiert sich als Friedensbringer – der Rahmen, in dem die Berichte über die Varusschlacht entstehen."],
+  ]},
+  { name: "Caesar", icon: "🦅", c: "#7a5c9e", terms: [
+    ["Caesar", "Gaius Iulius Caesar, Feldherr und Politiker – erobert 58–50 v. Chr. Gallien und berichtet darüber selbst."],
+    ["De bello Gallico", "Caesars Bericht über den Gallienkrieg – zugleich die wichtigste Quelle über Rhein und Germanen. Rechtfertigung und Selbstwerbung in einem."],
+    ["Ethnographischer Exkurs", "Caesar schaltet Völkerbeschreibungen ein – die Germanen erscheinen als das typische Andere jenseits des Rheins."],
+    ["Rhein als Grenze", "Caesar erklärt den Rhein zur Grenze zwischen Gallien und Germanien – eine Ordnungs- und Propagandaleistung der römischen Weltordnung."],
+    ["Germanen bei Caesar", "Wild, kriegslustig, bedrohlich – jenseits des Rheins beginnt für ihn die Unzivilisiertheit. Die Germanengefahr macht seine Feldzüge notwendig und ehrenvoll."],
+    ["Natur- oder Kulturgrenze", "Caesar schwankt: mal ist der Rhein Natur-, mal Zivilisationsgrenze – der Widerspruch verrät die Absicht hinter der Darstellung."],
+    ["Bericht an den Senat", "Das Bellum Gallicum ist Rechtfertigung und Selbstwerbung – Caesar braucht Erfolge und einen gefährlichen Gegner für seinen Machtanspruch in Rom."],
+    ["Ältere Tradition", "Caesar stützt sich auf die griechisch-hellenistische Ethnographie (z. B. Poseidonios) – keine eigene Feldforschung jenseits des Rheins."],
+  ]},
+  { name: "Tacitus", icon: "📜", c: "#3f7a5c", terms: [
+    ["Tacitus", "Publius Cornelius Tacitus (ca. 58–120 n. Chr.), Historiker und Senator – schreibt Germania und Annalen."],
+    ["Germania", "Ca. 98 n. Chr. erscheint die Völkerkunde der Germanen – eine kurze Schrift mit enormer Nachwirkung bis ins 20. Jahrhundert."],
+    ["Germania-Befund", "Germanen: keine Städte, kein Geld, keine Schrift – scheinbar kulturlos, aber sittlich intakt. Ein doppelbödiges Bild."],
+    ["Negative Topoi", "Feritas (Wildheit), Unkultur, Gewalt, Maßlosigkeit, Nähe zur Natur – klassische Barbarenmuster der antiken Ethnographie."],
+    ["Positive Topoi", "Treue, Gastfreundschaft, feste Ehe, Kriegerehre, Einfachheit – die Germanen als sittliche Alternative zum dekadenten Rom."],
+    ["Sittenspiegelthese", "Forschungsdeutung: Tacitus hält den Germanen als stillen Spiegel die Dekadenz Roms vor – Kritik an der eigenen Gesellschaft im Gewand der Völkerkunde."],
+    ["Reinheitstopos", "Tacitus behauptet, die Germanen seien „autochthon“ und unvermischt – eine Fiktion mit rhetorischer Absicht."],
+    ["Annalen", "Tacitus’ Hauptwerk über die julisch-claudische Kaiserzeit – hier die Erzählung von Arminius und den Germanienkriegen."],
+    ["Arminius bei Tacitus", "Tacitus nennt Arminius den „Befreier Germaniens“ – ohne fremde Herrschaft, einzigartig in der römischen Literatur."],
+    ["Vergleich Caesar–Tacitus", "Gleiche Tradition, völlig andere Bilder – der Kernbeweis für den Konstruktcharakter von Fremdbildern."],
+  ]},
+  { name: "Varusschlacht & Arminius", icon: "⚔️", c: "#c08a3e", terms: [
+    ["Varus", "Publius Quinctilius Varus, römischer Statthalter in Germanien – verliert 9 n. Chr. drei Legionen im Teutoburger Wald."],
+    ["Arminius", "Cheruskischer Fürstensohn, römisch ausgebildeter Offizier – führt 9 n. Chr. die Aufständischen gegen seinen ehemaligen Auftraggeber."],
+    ["Varusschlacht", "9 n. Chr.: drei römische Legionen werden in Germanien vernichtet – eine der schwersten Niederlagen der römischen Geschichte."],
+    ["Kalkriese", "Fundort am Wiehengebirge: Münzen, Waffen und Wallreste belegen den Überfall auf die römische Kolonne – Archäologie macht aus Legende überprüfbare Geschichte."],
+    ["Velleius Paterculus", "Ca. 30 n. Chr., Offizier und Zeitzeuge: macht Varus verantwortlich – er habe dem „Verräter“ Arminius vertraut. Der Sündenbock schützt die römische Selbsterzählung."],
+    ["Cassius Dio", "Späte, ausführliche Darstellung (3. Jh.) – viele Details der Schlacht stammen erst von ihm."],
+    ["Augustus’ Reaktion", "Sueton überliefert den Hilfeschrei: „Quintili Vare, legiones redde!“ – „Varus, gib mir die Legionen zurück“."],
+    ["Germanicus", "14–16 n. Chr. rächt Germanicus die Niederlage – er bestattet die Toten an der Schlachtstelle."],
+    ["Thusnelda", "Arminius’ Frau wird von Römern gefangen – 17 n. Chr. im Triumphzug in Rom: Machtdemonstration statt Sieges."],
+    ["Rheingrenze", "Nach 9 n. Chr. gibt Rom das rechtsrheinische Gebiet faktisch auf – die Grenze wird Dauerlinie, der Limes organisiert sie militärisch und wirtschaftlich."],
+    ["Keine Germanenquelle", "Es gibt keine schriftliche germanische Überlieferung – Arminius existiert nur durch römische Augen. Paradebeispiel für Perspektivität."],
+    ["Germanen-Sammelname", "„Germanen“ ist ein römisches Sammelwort für sehr verschiedene Gruppen ohne gemeinsames Selbstbild – die Fachwelt schreibt das Wort heute oft in Anführungszeichen."],
+  ]},
+  { name: "Rezeption & Mythos", icon: "🗿", c: "#4a7a9e", terms: [
+    ["Vergessen im Mittelalter", "Tacitus’ Schriften waren rund 1000 Jahre verschollen – Arminius und die Varusschlacht waren vergessen."],
+    ["1425 Germania wieder da", "Eine Abschrift der Germania taucht auf – die Humanisten machen sie zum Bestseller."],
+    ["1507 Annalen wieder da", "Auch die Annalen kehren zurück – Arminius wird als „Befreier Germaniens“ neu lesbar."],
+    ["Humanisten", "Sie nehmen Tacitus wörtlich: die Germanen als tugendhafte Vorfahren der Deutschen – mit zunehmender Vereinfachung."],
+    ["Arminius wird Hermann", "Der fremd klingende Name wird verdeutscht – aus Arminius wird „Hermann der Cherusker“."],
+    ["Klopstock", "Der Dichter begeistert sich im 18. Jahrhundert für Hermann – Oden und Dramen als nationale Identifikation."],
+    ["Kleist 1808", "„Die Hermannsschlacht“ als Aufruf gegen Napoleon – Hermann wird zum Freiheitskämpfer gegen die „Welschen“."],
+    ["Hermannsdenkmal", "1875 bei Detmold vollendet – über 26 Meter hoch, Hermann mit erhobenem Schwert."],
+    ["Kaiserreich-Nationalismus", "Das Denkmal feiert 1871/1875 Einheit und Abwehr Frankreichs – Germanen als „Ur-Deutsche“."],
+    ["Völkische Bewegung", "Im späten 19. und frühen 20. Jahrhundert wird das Germanenbild rassistisch aufgeladen."],
+    ["NS-Ideologie", "Der Nationalsozialismus baut den Germanenmythos in „Rasse“, „Blut und Boden“ ein – Feiern, Thingstätten und Propaganda."],
+    ["Nach 1945", "Die völkische Germanenideologie ist diskreditiert – kritische Distanz statt Mythen."],
+    ["Heutige Forschung", "„Germanen“ gilt als römischer Sammelbegriff für heterogene Gruppen – Kalkriese machte aus der Legende einen überprüfbaren Erinnerungsort."],
+  ]},
+  { name: "Klausur-Werkstatt", icon: "📝", c: "#7a4f6b", terms: [
+    ["Schritt 1: Einordnung", "Autor, Textsorte, Entstehungszeit, Adressat, Kontext – zuerst immer die Formalia klären."],
+    ["Schritt 2: Zusammenfassung", "Kernaussagen strukturiert wiedergeben: Präsens, eigene Sätze, Zitate als Beleg."],
+    ["Schritt 3: Analyse", "Absichten, Topoi, Wertungen und Sprachmerkmale herausarbeiten und am Text belegen."],
+    ["Schritt 4: Sachurteil", "Stimmen die Aussagen mit anderem Wissen überein? Was ist Konstrukt, was Information?"],
+    ["Schritt 5: Werturteil", "Eigene, begründete Bewertung aus heutiger Sicht – sauber getrennt vom Sachurteil."],
+    ["AFB I", "Wiedergabe: „Stelle dar“, „Fasse zusammen“ – Informationen aus dem Material entnehmen."],
+    ["AFB II", "Analyse: „Untersuche“, „Erkläre die Absicht“ – das Material selbst deuten."],
+    ["AFB III", "Beurteilung: „Beurteile“, „Erörtere“ – begründetes Urteil mit Gegenargumenten."],
+    ["Operator: vergleichen", "Kriteriengeleitet Gemeinsamkeiten und Unterschiede erarbeiten – z. B. Caesar vs. Tacitus."],
+    ["Operator: erörtern", "These und Gegenseite abwägen, dann zu einem begründeten Schluss kommen."],
+    ["Belegtechnik", "Jede Deutung braucht einen Textbeleg: wörtliches Zitat mit Angabe der Stelle."],
+    ["Klassische Aufgaben", "Germanenbild herausarbeiten, Caesar/Tacitus vergleichen, Sittenspiegelthese beurteilen, Rezeption erklären."],
+    ["Fazit-Formulierung", "Am Ende das Ergebnis bündeln und die Leitfrage deutlich beantworten – „Insgesamt zeigt sich …“."],
+  ]},
+];
+
+const KLAUSUR = [
+  { t: "Germanenbild bei Caesar", afb: "AFB II",
+    auf: "Untersuche, welches Germanenbild Caesar im Exkurs über Rhein und Germanen (De bello Gallico) zeichnet – und welche Absicht er damit verfolgt.",
+    loes: "Inhalt: Germanen als wild, kriegslustig, bedrohlich; Rhein als Grenze zwischen Zivilisation und Barbarei. Analyse: ethnozentrische Topoi (feritas, Unkultur), Kontrastierung mit dem römischen Selbstbild (Virtus, Pax Romana). Absicht: Rechtfertigung der Feldzüge und des Machtanspruchs Caesars gegenüber dem Senat – die Germanengefahr macht sein Handeln notwendig und ehrenvoll. Beurteilung: Der Rhein ist eine von Caesar konstruierte Ordnungs- und Propagandaleistung, keine natürliche Kulturgrenze." },
+  { t: "Vergleich Caesar und Tacitus", afb: "AFB II/III",
+    auf: "Vergleiche die Germanenbilder bei Caesar und Tacitus. Erkläre, inwiefern der Vergleich den Konstruktcharakter von Fremdbildern belegt.",
+    loes: "Kriterien: wild/kriegslustig vs. tugendhaft/treu; Bedrohung vs. sittlicher Spiegel; Rheingrenze vs. Germania als Völkerkunde. Gemeinsam: Beide stützen sich auf dieselbe ethnographische Tradition ohne eigene Feldforschung. Unterschied: Tacitus betont positive Topoi (Gastfreundschaft, feste Ehe, Einfachheit) – Sittenspiegelthese: versteckte Kritik am dekadenten Rom. Schluss: gleiche Überlieferungsbasis, völlig andere Bilder je nach Absicht und Kontext – Fremdbilder sagen mehr über die Schreiberkultur aus als über die Beschriebenen." },
+  { t: "Sittenspiegelthese beurteilen", afb: "AFB III",
+    auf: "Beurteile die These, Tacitus habe die Germania als „Sittenspiegel“ geschrieben, also als versteckte Kritik an der römischen Gesellschaft.",
+    loes: "Pro: auffällige positive Topoi, zeitgeschichtlicher Kontext (Dekadenzkritik, flavische Kaiserzeit), Tacitus’ bekannte kritische Haltung in den Annalen. Contra: Die Germania ist formal eine ethnographische Völkerkunde; moralisieren war Gattungskonvention; die Beweisbarkeit der Autorabsicht ist begrenzt. Fazit: Die These ist plausibel und forschungsetabliert, aber als Deutung, nicht als Fakt zu behandeln – ein solide begründetes, differenziertes Urteil bringt hier die volle Punktzahl." },
+  { t: "Arminius als Konstrukt", afb: "AFB II/III",
+    auf: "Erörtere, inwiefern das Arminiusbild des Tacitus („Befreier Germaniens“) ein Konstrukt ist – und was die Rezeption bis 1945 daraus machte.",
+    loes: "Quellenlage: keine germanischen Selbstaufzeichnungen; Arminius erscheint nur in römischen Quellen (Tacitus, Paterculus). Tacitus’ „Befreier“ ist eine bewusste Ehrenbezeichnung gegen die eigene Propagandalinie. Rezeption: 1425/1507 Wiederentdeckung, Humanisten nehmen es wörtlich, „Hermann“ wird Nationalheld (Klopstock, Kleist 1808), Hermannsdenkmal 1875 als Kaiserreich-Nationalismus, der NS instrumentalisiert den Germanenmythos für „Rasse“ und „Blut und Boden“. Fazit: Ein römischer Konstrukt wurde zum deutschen Mythos – jede Zeit baute sich das Bild, das sie brauchte." },
+  { t: "Varusschlacht: Schuldfrage", afb: "AFB II/III",
+    auf: "Velleius Paterculus macht Varus für die Niederlage von 9 n. Chr. verantwortlich. Arbeite heraus, wie er dies darstellt, und beurteile, wem diese Erzählung nützt.",
+    loes: "Darstellung: Varus als leichtgläubig, arrogant, dem „Verräter“ Arminius vertrauend – die Armee als gut, nur falsch geführt. Analyse: Das Sündenbock-Muster schützt die römische Selbsterzählung (nicht Rom versagte, nur ein Mann) und die Institutionen; Paterculus selbst war Offizier – Perspektivität beachten. Beurteilung: Die moderne Forschung sieht vielschichtigere Ursachen (Provinzpolitik, Bündnisse, Logistik), bestätigt durch Kalkriese. Die Erzählung nützt dem römischen Selbstbild, nicht der Erkenntnis." },
+  { t: "Hermannsdenkmal interpretieren", afb: "AFB II/III",
+    auf: "Interpretiere das Hermannsdenkmal (1875) als Quelle der Geschichtskultur: Welche Botschaft sendet es, und wie steht es zum Germanenbild der Römer?",
+    loes: "Befund: über 26 m hoch, erhobenes Schwert, Germane als wehrhafter Nationalheld; Entstehung 1875 nach der Reichsgründung 1871. Deutung: nationalistische Identitätsstiftung, Abwehr Frankreichs („Welsche“), Germanen als „Ur-Deutsche“. Bezug: direkter Rückgriff auf Tacitus’ „Befreier“-Titel – ein antikes Fremdbild wird 1800 Jahre später zum nationalen Selbstbild umgedeutet. Beurteilung: Das Denkmal erzählt mehr über 1875 als über 9 n. Chr. – Paradebeispiel für Rezeptions- und Erinnerungskultur." },
+  { t: "Barbaren-Topoi erarbeiten", afb: "AFB I/II",
+    auf: "Stelle dar, welche Topoi die römische Literatur mit dem Wort „Barbar“ verbindet, und zeige an zwei Beispielen, wie diese Topoi der römischen Identität dienten.",
+    loes: "Topoi: Wildheit (feritas), Unkultur, Gewalt, Maßlosigkeit, Nähe zur Natur, räumliche Ferne. Beispiele: (1) Caesar braucht den bedrohenden Barbaren jenseits des Rheins, um seine Feldzüge als Verteidigung der Zivilisation zu legitimieren; (2) Tacitus’ tugendhafte Germanen dienen als stiller Kontrast, um römische Dekadenz zu kritisieren. Funktionsweise: Identität durch Abgrenzung – das römische Selbstbild (Virtus, Maß, Zivilisation) definiert sich am Gegenbild des Barbaren." },
+  { t: "Heutige Germanenbilder", afb: "AFB III",
+    auf: "Erörtere, warum die heutige Forschung „Germanen“ oft in Anführungszeichen schreibt – und beziehe Stellung, ob Schulbücher weiterhin von „Germanen“ sprechen sollten.",
+    loes: "Begründung: „Germanen“ ist ein römisches Sammelwort für sehr unterschiedliche Gruppen ohne gemeinsames Selbstbewusstsein; archäologisch lassen sich keine „Germanen“ als Volk nachweisen. Problem: Der Begriff ist mit 150 Jahren nationalistischer und rassistischer Aufladung belastet. Abwägung: Für Sprachökonomie und Anschlussfähigkeit bleibt der Begriff praktisch – aber mit kritischer Einführung (Konstruktcharakter, Rezeptionsgeschichte) statt als unhinterfragte Völkerbezeichnung. Gefordert ist ein begründetes eigenes Urteil mit Gegenargument." },
+];
+
+const QUIZ = [
+  ["Was heißt „Alterität“?", "Die Andersartigkeit einer Gruppe aus der Sicht einer anderen Kultur", "Die Altersstruktur einer Gesellschaft", "Ein Bündnis zwischen zwei Völkern", "Die Vorherrschaft einer Stadt"],
+  ["Was ist ein zentrales Merkmal eines Fremdbilds?", "Es ist ein Konstrukt und sagt viel über die Schreiberkultur aus", "Es ist immer historisch exakt belegt", "Es entsteht nur aus Selbstzeugnissen der Beschriebenen", "Es ist frei von Absichten"],
+  ["Mit welchem Werk beschreibt Caesar die Germanen?", "De bello Gallico", "Germania", "Annalen", "Aeneis"],
+  ["Wer schrieb die „Germania“ (ca. 98 n. Chr.)?", "Tacitus", "Caesar", "Vergil", "Cassius Dio"],
+  ["Was besagt die „Sittenspiegelthese“?", "Tacitus hält den Germanen sittliche Tugenden als kritischen Spiegel vor das dekadente Rom", "Germanien hatte Spiegel als Kultobjekte", "Die Germania ist ein reines Sittenverzeichnis", "Tacitus wollte Germanen römisch machen"],
+  ["Welcher Begriff bezeichnet römische Tüchtigkeit und Selbstbeherrschung?", "Virtus", "Pax Romana", "Civitas", "Feritas"],
+  ["In welchem Jahr fand die Varusschlacht statt?", "9 n. Chr.", "9 v. Chr.", "98 n. Chr.", "116 n. Chr."],
+  ["Wo fielen die archäologischen Funde zur Varusschlacht?", "Kalkriese", "Detmold", "Rom", "Köln"],
+  ["Wer war Arminius?", "Ein römisch ausgebildeter Offizier cheruskischer Herkunft, der die Germanen anführte", "Ein römischer Statthalter", "Der Baumeister des Hermannsdenkmals", "Ein griechischer Historiker"],
+  ["Wem gibt Velleius Paterculus die Schuld an der Niederlage?", "Varus – er habe dem „Verräter“ Arminius vertraut", "Augustus – er habe falsch geplant", "Dem schlechten Wetter", "Den Göttern"],
+  ["Wofür steht das Hermannsdenkmal bei Detmold (1875)?", "Nationalistische Identitätsstiftung nach der Reichsgründung 1871", "Ein römisches Siegesmonument", "Ein Denkmal für Kaiser Wilhelm I.", "Eine Friedensbotschaft an Frankreich"],
+  ["Welcher AFB verlangt eine eigene begründete Bewertung?", "AFB III – Beurteilung", "AFB I – Wiedergabe", "AFB II – Analyse", "Keiner"],
+];
+
+const HTB = RUBRICS.flatMap((r, i) => r.terms.map(t => [t[0], t[1], r.name]));
+
+/* ===================== APP ===================== */
+let htbIndex = 0;
+
+function showHome() {
+  let h = '<div class="grid">';
+  RUBRICS.forEach((r, i) => {
+    h += '<div class="tile" style="--c:' + r.c + '" data-rub="' + i + '"><div class="ico">' + r.icon + '</div><div class="lbl">' + r.name + '</div><div class="cnt">' + r.terms.length + ' Begriffe</div></div>';
+  });
+  h += '<div class="tile" style="--c:#a3546b" data-rub="klaus"><div class="ico">🎓</div><div class="lbl">Klausurfragen</div><div class="cnt">' + KLAUSUR.length + ' Aufgaben</div></div>';
+  h += '</div><div class="bigrow">';
+  h += '<button class="pill" id="htbBtn">📖 Hosentaschenbuch<br><small style="font-weight:400;font-size:0.7rem;">' + HTB.length + ' Karten</small></button>';
+  h += '<button class="pill" id="quizBtn">❓ Quiz<br><small style="font-weight:400;font-size:0.7rem;">5 Fragen · mit Fanfare</small></button>';
+  h += '</div><div class="actions">';
+  h += '<button class="pill ghost" id="chipBtn">🧩 Chips drucken</button>';
+  h += '<button class="pill ghost" id="kartBtn">🗂️ Kärtchen drucken</button>';
+  h += '</div><div class="tally">Quiz · Hosentaschenbuch · Chips · Lernkärtchen · Klausurfragen</div>';
+  document.getElementById("main").innerHTML = h;
+  RUBRICS.forEach((r, i) => {
+    document.querySelector('[data-rub="' + i + '"]').addEventListener("click", function () { showRub(i); });
+  });
+  document.querySelector('[data-rub="klaus"]').addEventListener("click", showKlausur);
+  document.getElementById("htbBtn").addEventListener("click", function () { htbIndex = 0; showHtb(); });  document.getElementById("quizBtn").addEventListener("click", startQuiz);
+  document.getElementById("chipBtn").addEventListener("click", function () { printSheets("chips"); });
+  document.getElementById("kartBtn").addEventListener("click", function () { printSheets("kart"); });
+}
+
+function showRub(i) {
+  const r = RUBRICS[i];
+  let h = '<div class="rubhead"><span class="ri">' + r.icon + '</span><h2>' + r.name + '</h2></div><hr class="rubline" style="--c:' + r.c + '"><div class="terms">';
+  r.terms.forEach(function (t, j) {
+    h += '<button class="term" style="--c:' + r.c + '" data-term="' + j + '">' + t[0] + '<span class="arr">→</span></button>';
+  });
+  h += '</div><div class="navrow"><button class="pill" id="backHome">← Zurück</button></div>';
+  document.getElementById("main").innerHTML = h;
+  r.terms.forEach(function (t, j) {
+    document.querySelector('[data-term="' + j + '"]').addEventListener("click", function () { showTerm(i, j); });
+  });
+  document.getElementById("backHome").addEventListener("click", showHome);
+}
+
+function showTerm(i, j) {
+  const r = RUBRICS[i], t = r.terms[j];
+  let h = '<div class="card" style="--c:' + r.c + '"><div class="kicker">' + r.name + '</div><h3>' + t[0] + '</h3><p>' + t[1] + '</p></div>';
+  h += '<div class="navrow"><button class="pill" id="backRub">← Zurück</button><button class="pill ghost" id="speakBtn">🔊 Vorlesen</button></div>';
+  document.getElementById("main").innerHTML = h;
+  document.getElementById("backRub").addEventListener("click", function () { showRub(i); });
+  document.getElementById("speakBtn").addEventListener("click", function () { speak(t[0] + ". " + t[1]); });
+}
+
+/* Klausurfragen */
+function showKlausur() {
+  let h = '<div class="rubhead"><span class="ri">🎓</span><h2>Klausurfragen</h2></div><hr class="rubline" style="--c:#a3546b"><div class="terms">';
+  KLAUSUR.forEach(function (k, j) {
+    h += '<button class="term" style="--c:#a3546b" data-k="' + j + '">' + k.t + '<span class="arr">' + k.afb + ' →</span></button>';
+  });
+  h += '</div><div class="navrow"><button class="pill" id="backHome">← Zurück</button><button class="pill ghost" id="klausPrint">📄 Alle drucken (PDF)</button></div>';
+  document.getElementById("main").innerHTML = h;
+  KLAUSUR.forEach(function (k, j) {
+    document.querySelector('[data-k="' + j + '"]').addEventListener("click", function () { showKlausurDetail(j); });
+  });
+  document.getElementById("backHome").addEventListener("click", showHome);
+  document.getElementById("klausPrint").addEventListener("click", function () { printSheets("klausur"); });
+}
+
+function showKlausurDetail(j) {
+  const k = KLAUSUR[j];
+  let h = '<div class="card" style="--c:#a3546b"><div class="kicker">Klausurfrage · ' + k.afb + '</div><h3>' + k.t + '</h3><p>' + k.auf + '</p></div>';
+  h += '<div class="card" style="--c:#3f7a5c"><div class="kicker">Erwartungshorizont</div><p>' + k.loes + '</p></div>';
+  h += '<div class="navrow"><button class="pill" id="backKlaus">← Zurück</button><button class="pill ghost" id="kSpeak">🔊 Vorlesen</button></div>';
+  document.getElementById("main").innerHTML = h;
+  document.getElementById("backKlaus").addEventListener("click", showKlausur);
+  document.getElementById("kSpeak").addEventListener("click", function () { speak(k.auf + " " + k.loes); });
+}
+
+/* Quiz: 5 zufällige Fragen aus dem Pool */
+let quizOrder = [], quizPos = 0, quizGood = 0;
+
+function startQuiz() {
+  quizOrder = QUIZ.map(function (_, i) { return i; }).sort(function () { return Math.random() - 0.5; }).slice(0, 5);
+  quizPos = 0; quizGood = 0;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  if (quizPos >= quizOrder.length) {
+    const pct = Math.round(100 * quizGood / quizOrder.length);
+    let h = '<div class="quizcard"><div class="qnum">Ergebnis</div><div class="qtxt">' + quizGood + ' von ' + quizOrder.length + ' richtig (' + pct + ' %)</div>';
+    h += '<div class="qresult">' + (quizGood === quizOrder.length ? '🏆 Perfekt – klausurreif!' : quizGood >= 3 ? '🎉 Gut gemacht!' : '💪 Weiter üben – die Themenseiten helfen!') + '</div>';
+    h += '</div><div class="navrow"><button class="pill" id="againBtn">↻ Nochmal</button><button class="pill ghost" id="quitBtn">← Zurück</button></div>';
+    document.getElementById("main").innerHTML = h;
+    celebrate(true);
+    document.getElementById("againBtn").addEventListener("click", startQuiz);
+    document.getElementById("quitBtn").addEventListener("click", showHome);
+    return;
+  }
+  const q = QUIZ[quizOrder[quizPos]];
+  const opts = [q[1], q[2], q[3], q[4]].sort(function () { return Math.random() - 0.5; });
+  const QCOLORS = ["#5b7a9d", "#8a6d3b", "#7a5c9e", "#3f7a5c", "#c08a3e"];
+  let h = '<div class="quizcard"><div class="qnum">Frage ' + (quizPos + 1) + ' von ' + quizOrder.length + '</div><div class="qtxt">' + q[0] + '</div><div class="opts">';
+  opts.forEach(function (o) {
+    const col = QCOLORS[Math.floor(Math.random() * QCOLORS.length)];
+    h += '<button class="opt" data-opt="' + o + '" style="border-left:4px solid ' + col + ';">' + o + '</button>';
+  });
+  h += '</div><div class="qresult" id="qresult"></div><div class="score" id="score"></div></div>';
+  h += '<div class="navrow"><button class="pill ghost" id="quitBtn">← Zurück</button></div>';
+  document.getElementById("main").innerHTML = h;
+  document.querySelectorAll(".opt").forEach(function (b) {
+    b.addEventListener("click", function () {
+      const chosen = b.dataset.opt, right = q[1];
+      document.querySelectorAll(".opt").forEach(function (o) {
+        o.disabled = true;
+        if (o.dataset.opt === right) o.classList.add("good");
+        else if (o === b) o.classList.add("bad");
+      });
+      const res = document.getElementById("qresult");
+      if (chosen === right) { quizGood++; res.textContent = "✅ Richtig!"; celebrate(false); }
+      else { res.textContent = "❌ Leider nicht – richtig ist: " + right; }
+      document.getElementById("score").textContent = "Punkte: " + quizGood + " / " + (quizPos + 1);
+      setTimeout(function () { quizPos++; renderQuiz(); }, 1300);
+    });
+  });
+  document.getElementById("quitBtn").addEventListener("click", showHome);
+}
+
+/* Hosentaschenbuch – Navigation über data-act (robust bei jedem Neuaufbau) */
+function showHtb() {
+  const c = HTB[htbIndex];
+  let h = '<div class="rubhead"><span class="ri">📖</span><h2>Hosentaschenbuch</h2></div><hr class="rubline" style="--c:#5b7a9d">';
+  h += '<div class="htbcard" data-act="htb-next"><div class="hrub">' + c[2] + '</div><h3>' + c[0] + '</h3><hr class="htbrule"><p>' + c[1] + '</p></div>';
+  h += '<div class="htbctr">Karte ' + (htbIndex + 1) + ' von ' + HTB.length + ' · Karte antippen = nächste</div>';
+  h += '<div class="navrow">';
+  h += '<button class="pill ghost" type="button" data-act="htb-prev" style="flex:1;">← Karte</button>';
+  h += '<button class="pill" type="button" data-act="htb-next" style="flex:1;">Karte →</button>';
+  h += '</div><div class="navrow">';
+  h += '<button class="pill" type="button" data-act="htb-menu" style="flex:1;">← Zum Menü</button>';
+  h += '<button class="pill ghost" type="button" data-act="htb-speak" style="flex:1;">🔊 Vorlesen</button>';
+  h += '</div>';
+  document.getElementById("main").innerHTML = h;
+}
+
+/* Zentrale Klick-Steuerung für das ganze Hosentaschenbuch */
+document.getElementById("main").addEventListener("click", function (e) {
+  const el = e.target.closest("[data-act]");
+  if (!el) return;
+  const act = el.getAttribute("data-act");
+  if (act === "htb-next") { stopSpeak(); htbIndex = (htbIndex + 1) % HTB.length; showHtb(); }
+  else if (act === "htb-prev") { stopSpeak(); htbIndex = (htbIndex - 1 + HTB.length) % HTB.length; showHtb(); }
+  else if (act === "htb-menu") { stopSpeak(); showHome(); }
+  else if (act === "htb-speak") {
+    if (window.speechSynthesis && window.speechSynthesis.speaking) { stopSpeak(); }
+    else { speak(HTB[htbIndex][0] + ". " + HTB[htbIndex][1]); }
+    const b = document.querySelector('[data-act="htb-speak"]');
+    if (b) b.textContent = (window.speechSynthesis && window.speechSynthesis.speaking) ? "⏹ Stopp" : "🔊 Vorlesen";
+  }
+});
+
+/* Vorlesen – mit Stopp-Funktion */
+function stopSpeak() {
+  try { window.speechSynthesis.cancel(); } catch (e) {}
+  const b = document.querySelector('[data-act="htb-speak"]');
+  if (b) b.textContent = "🔊 Vorlesen";
+}
+
+function speak(text) {
+  try {
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = "de-DE"; u.rate = 0.95;
+    const v = window.speechSynthesis.getVoices().find(function (v) { return v.lang && v.lang.startsWith("de"); });
+    if (v) u.voice = v;
+    u.addEventListener("end", stopSpeak);
+    window.speechSynthesis.speak(u);
+    const b = document.querySelector('[data-act="htb-speak"]');
+    if (b) b.textContent = "⏹ Stopp";
+  } catch (e) {}
+}
+
+/* Druck */
+function printSheets(mode) {
+  const area = document.getElementById("printArea");
+  let h = "";
+  if (mode === "klausur") {
+    h += '<div class="klausur-page"><h2>Selbst- &amp; Fremdbilder · Römer &amp; Germanen · Klausurfragen</h2>';
+    KLAUSUR.forEach(function (k, i) {
+      h += '<div class="aufg">Aufgabe ' + (i + 1) + ': ' + k.t + '</div><div class="afb">' + k.afb + ' · ' + k.auf + '</div>';
+      h += '<div class="loeshead">Erwartungshorizont</div><div class="loes">' + k.loes + '</div>';
+    });
+    h += '<div style="font-size:9pt;color:#aaa;margin-top:6mm;">ARC(E)ANA creative studio</div></div>';
+  } else if (mode === "chips") {
+    const PER = 12, pages = Math.ceil(HTB.length / PER);
+    for (let p = 0; p < pages; p++) {
+      h += '<div class="chip-page"><h2 style="grid-column:1/-1;font-size:12pt;margin:0 0 2mm;">Selbst- &amp; Fremdbilder · Lern-Chips · Blatt ' + (p + 1) + '/' + pages + '</h2>';
+      HTB.slice(p * PER, p * PER + PER).forEach(function (c) {
+        h += '<div class="chip-circle"><div class="ct">' + c[0] + '</div><div class="cc">' + c[1] + '</div></div>';
+      });
+      h += '</div>';
+    }
+  } else {
+    /* Lernkärtchen: ein Kärtchen = Begriff + Definition (wie Dresden-HTB), 20 pro A4 */
+    const PER = 20, pages = Math.ceil(HTB.length / PER);
+    for (let p = 0; p < pages; p++) {
+      const slice = HTB.slice(p * PER, p * PER + PER);
+      h += '<div class="print-heading"><span>Selbst- &amp; Fremdbilder · Römer &amp; Germanen · Lernkärtchen</span><span>Blatt ' + (p + 1) + ' / ' + pages + '</span></div>';
+      h += '<div class="kart-page">';
+      slice.forEach(function (c) {
+        const kcls = c[1].length > 120 ? " lang" : c[1].length > 85 ? " mittel" : "";
+        h += '<div class="kart"><div class="klabel">📜 Begriff</div><div class="kt">' + c[0] + '</div><div class="kregel"></div><div class="klabel2">🗓️ Definition</div><div class="kc' + kcls + '">' + c[1] + '</div></div>';
+      });
+      /* Letztes Blatt auffüllen: Selbst-Ausfüll-Kärtchen für die Schüler */
+      if (slice.length < PER) {
+        const PROMPTS = [
+          "Formuliere eine eigene Prüfungsfrage zu einem Begriff deiner Wahl:",
+          "Mein Merksatz: „Ein Fremdbild ist ein Konstrukt, weil …“",
+          "Erkläre den Begriff „Alterität“ in einem Satz einem Fünftklässler:",
+          "Nenne drei römische Quellen zur Varusschlacht:",
+          "Welche Frage würdest du Tacitus stellen? Warum?",
+          "Vergleiche Caesar und Tacitus in drei Stichworten:",
+          "Warum schreibt die Forschung „Germanen“ in Anführungszeichen?",
+          "Notiere zwei Barbaren-Topoi und erkläre sie kurz:",
+          "Schreibe den ersten Satz deiner AFB-III-Antwort:",
+          "Zeichne eine Mini-Mindmap zum römischen Selbstbild:",
+          "Was sagt das Germanenbild über Rom selbst aus?",
+          "Mein persönliches Fazit zum Thema:",
+          "Welche drei Begriffe musst du bis zur Klausur noch üben? Schreibe sie auf:",
+          "Erkläre in einem Satz, warum Rezeptionsgeschichte zur Quellenkritik gehört:",
+        ];
+        for (let f = 0; f < PER - slice.length && f < PROMPTS.length; f++) {
+          h += '<div class="kart"><div class="klabel">✍️ Selbst ausfüllen</div><div class="kt fr">' + PROMPTS[f] + '</div><div class="linie"></div><div class="linie"></div><div class="linie"></div></div>';
+        }
+        /* Restplätze mit freien Kärtchen auffüllen, bis die Seite exakt voll ist */
+        const placed = Math.min(PER - slice.length, PROMPTS.length);
+        for (let f = placed; f < PER - slice.length; f++) {
+          h += '<div class="kart"><div class="klabel">✍️ Selbst ausfüllen</div><div class="kt fr">Freies Kärtchen – hier gehört dein Thema hin:</div><div class="linie"></div><div class="linie"></div><div class="linie"></div></div>';
+        }
+      }
+      h += '</div>';
+    }
+  }
+  area.innerHTML = h;
+  window.print();
+}
+
+/* Footer */
+document.getElementById("impLink").addEventListener("click", function () { document.getElementById("dlgImp").showModal(); });
+document.getElementById("dsLink").addEventListener("click", function () { document.getElementById("dlgDs").showModal(); });
+
+function wirePanel(linkId, panelId) {
+  const link = document.getElementById(linkId), panel = document.getElementById(panelId);
+  link.addEventListener("click", function () {
+    const open = panel.classList.contains("open");
+    document.querySelectorAll(".arc-pop").forEach(function (p) { p.classList.remove("open"); });
+    if (!open) panel.classList.add("open");
+  });
+  panel.addEventListener("click", function () { panel.classList.remove("open"); });
+}
+wirePanel("arcLink", "arcPanel");
+
+/* Bücherregen mit Fanfare */
+function bookRain(n) {
+  const ITEMS = ["📚", "📖", "📜", "📅", "🖋️"];
+  for (let k = 0; k < n; k++) {
+    const s = document.createElement("span");
+    s.className = "fall";
+    s.textContent = ITEMS[Math.floor(Math.random() * ITEMS.length)];
+    s.style.left = (Math.random() * 96) + "vw";
+    s.style.animationDuration = (1.8 + Math.random() * 2.2) + "s";
+    s.style.animationDelay = (Math.random() * 0.9) + "s";
+    s.style.fontSize = (1.1 + Math.random() * 1.3) + "rem";
+    document.body.appendChild(s);
+    setTimeout(function () { s.remove(); }, 5200);
+  }
+}
+
+function fanfare(big) {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const now = ctx.currentTime;
+    const chords = big
+      ? [[261.6, 329.6, 392.0], [349.2, 440.0, 523.3], [392.0, 493.9, 587.3], [523.3, 659.3, 784.0]]
+      : [[261.6, 329.6, 392.0], [392.0, 493.9, 587.3]];
+    const step = big ? 0.45 : 0.4;
+    chords.forEach(function (ch, ci) {
+      ch.forEach(function (f) {
+        const o = ctx.createOscillator(), g = ctx.createGain();
+        o.type = "sine"; o.frequency.value = f;
+        o.detune.value = (Math.random() - 0.5) * 6;
+        const t0 = now + ci * step;
+        g.gain.setValueAtTime(0, t0);
+        g.gain.linearRampToValueAtTime(0.09, t0 + 0.06);
+        g.gain.exponentialRampToValueAtTime(0.0001, t0 + (big ? 0.9 : 0.7));
+        o.connect(g); g.connect(ctx.destination);
+        o.start(t0); o.stop(t0 + 1);
+      });
+    });
+    setTimeout(function () { ctx.close(); }, (chords.length * step + 2) * 1000);
+  } catch (e) {}
+}
+
+function celebrate(big) {
+  bookRain(big ? 26 : 10);
+  fanfare(big);
+}
+
+showHome();
+</script>
+</body>
+</html>
